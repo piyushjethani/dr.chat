@@ -8,7 +8,15 @@ import { fileURLToPath } from "node:url";
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const publicDir = join(__dirname, "public");
 const port = Number(process.env.PORT || 3000);
-const apiKey = process.env.GEMINI_API_KEY || "";
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+  console.error("====================================================");
+  console.error("ERROR: GEMINI_API_KEY environment variable is missing!");
+  console.error("Please run the app using: npm start");
+  console.error("Or run: node --env-file=.env index.js");
+  console.error("====================================================");
+  process.exit(1);
+}
 
 const ai = new GoogleGenAI({ apiKey });
 const chats = new Map();
